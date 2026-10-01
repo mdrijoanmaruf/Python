@@ -9,3 +9,7 @@ str(x);
 print(x)
 float(x);
 print(x)
+
+a = "hello";
+b = " World "
+print(a , b)
