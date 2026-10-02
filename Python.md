@@ -44,6 +44,14 @@
   - [Loop In Tuple](#loop-in-tuple)
   - [Join Tuples](#join-tuples)
   - [Tuple Methods](#tuple-methods)
+- [Sets](#sets)
+  - [Access Set Items](#access-set-items)
+  - [Add Set Items](#add-set-items)
+  - [Remove Set Items](#remove-set-items)
+  - [Loop In Set](#loop-in-set)
+  - [Join Sets](#join-sets)
+  - [Set Methods](#set-methods)
+  - [Frozenset](#frozenset)
 
 ---
 
@@ -1314,13 +1322,480 @@ x = thistuple.index(8)
 print(x)  # Output: 3
 ```
 
+
+---
+
+## Sets
+
+A **set** is a collection which is unordered, unchangeable*, and unindexed.
+* Note: Set items are unchangeable, but you can remove items and add new items.
+
+| Property | Detail |
+|---|---|
+| **Unordered** | You cannot be sure in which order the items will appear |
+| **Unchangeable** | Cannot change items, but can add or remove them |
+| **No Duplicates** | Duplicate values will be ignored |
+| **Unindexed** | You cannot access items by referring to an index or key |
+
+```python
+# Basic Set
+thisset = {"apple", "banana", "cherry", "apple"}
+print(thisset)  # Output: {'banana', 'cherry', 'apple'} (order may vary)
+
+# True and 1 are considered the same value
+thisset = {"apple", "banana", "cherry", True, 1, 2}
+print(thisset)  # Output: {True, 2, 'cherry', 'banana', 'apple'}
+
+# Length of a Set
+thisset = {"apple", "banana", "cherry"}
+print(len(thisset))  # Output: 3
+
+# type()
+myset = {"apple", "banana", "cherry"}
+print(type(myset))  # Output: <class 'set'>
+
+# The set() Constructor
+thisset = set(("apple", "banana", "cherry")) # note the double round-brackets
+print(thisset)  # Output: {'cherry', 'apple', 'banana'}
+```
+
+---
+
+### Access Set Items
+
+You cannot access items in a set by referring to an index or a key. You must loop through the set.
+
+```python
+# Access Items
+thisset = {"apple", "banana", "cherry"}
+
+for x in thisset:
+  print(x)
+  # Output:
+  # apple
+  # banana
+  # cherry
+```
+
+---
+
+### Add Set Items
+
+```python
+# Add an item using add()
+thisset = {"apple", "banana", "cherry"}
+thisset.add("orange")
+print(thisset)  # Output: {'banana', 'orange', 'apple', 'cherry'}
+
+# Add elements from another set using update()
+thisset = {"apple", "banana", "cherry"}
+tropical = {"pineapple", "mango", "papaya"}
+thisset.update(tropical)
+print(thisset)  # Output: {'banana', 'apple', 'pineapple', 'papaya', 'cherry', 'mango'}
+
+# Add any iterable (lists, tuples, dictionaries etc.)
+thisset = {"apple", "banana", "cherry"}
+mylist = ["kiwi", "orange"]
+thisset.update(mylist)
+print(thisset)  # Output: {'kiwi', 'banana', 'orange', 'apple', 'cherry'}
+```
+
+---
+
+### Remove Set Items
+
+```python
+# remove() - raises an error if item does not exist
+thisset = {"apple", "banana", "cherry"}
+thisset.remove("banana")
+print(thisset)  # Output: {'apple', 'cherry'}
+
+# discard() - does NOT raise an error if item does not exist
+thisset = {"apple", "banana", "cherry"}
+thisset.discard("banana")
+print(thisset)  # Output: {'apple', 'cherry'}
+
+# pop() - removes a random item
+thisset = {"apple", "banana", "cherry"}
+x = thisset.pop()
+print(x)         # Output: 'cherry' (or any other item)
+print(thisset)   # Output: {'apple', 'banana'}
+
+# clear() - empties the set
+thisset = {"apple", "banana", "cherry"}
+thisset.clear()
+print(thisset)  # Output: set()
+
+# del - deletes the set completely
+thisset = {"apple", "banana", "cherry"}
+del thisset
+# print(thisset) # Raises an error because thisset no longer exists
+```
+
+---
+
+### Loop In Set
+
+```python
+# Loop items
+thisset = {"apple", "banana", "cherry"}
+
+for x in thisset:
+  print(x)
+  # Output:
+  # cherry
+  # apple
+  # banana
+```
+
+---
+
+### Join Sets
+
+There are several ways to join two or more sets in Python.
+
+#### Union (`union()` or `|`)
+Returns a new set with all items from both sets.
+
+```python
+# union()
+set1 = {"a", "b", "c"}
+set2 = {1, 2, 3}
+set3 = set1.union(set2)
+print(set3)  # Output: {1, 2, 3, 'a', 'b', 'c'}
+
+# | operator
+set1 = {"a", "b", "c"}
+set2 = {1, 2, 3}
+set3 = set1 | set2
+print(set3)  # Output: {1, 2, 3, 'a', 'b', 'c'}
+
+# Join multiple Sets
+set1 = {"a", "b", "c"}
+set2 = {1, 2, 3}
+set3 = {"John", "Elena"}
+set4 = {"apple", "bananas", "cherry"}
+myset = set1.union(set2, set3, set4)
+print(myset)  # Output: {1, 2, 3, 'bananas', 'cherry', 'a', 'b', 'c', 'apple', 'John', 'Elena'}
+
+# Join a set and a Tuple
+x = {"a", "b", "c"}
+y = (1, 2, 3)
+z = x.union(y)
+print(z)  # Output: {1, 2, 3, 'a', 'b', 'c'}
+```
+
+#### Update (`update()`)
+Inserts all items from one set into another (modifies original). Excludes duplicates.
+
+```python
+set1 = {"a", "b", "c"}
+set2 = {1, 2, 3}
+set1.update(set2)
+print(set1)  # Output: {1, 2, 3, 'a', 'b', 'c'}
+print(set2)  # Output: {1, 2, 3}
+```
+
+#### Intersection (`intersection()` or `&`)
+Returns a new set containing ONLY the duplicates.
+
+```python
+# intersection()
+set1 = {"apple", "banana", "cherry"}
+set2 = {"google", "microsoft", "apple"}
+set3 = set1.intersection(set2)
+print(set3)  # Output: {'apple'}
+
+# & operator
+set3 = set1 & set2
+print(set3)  # Output: {'apple'}
+
+# intersection_update() - Modifies the original set
+set1.intersection_update(set2)
+print(set1)  # Output: {'apple'}
+```
+
+#### Difference (`difference()` or `-`)
+Returns a new set containing items that only exist in the first set.
+
+```python
+# difference()
+set1 = {"apple", "banana", "cherry"}
+set2 = {"google", "microsoft", "apple"}
+set3 = set1.difference(set2)
+print(set3)  # Output: {'banana', 'cherry'}
+
+# - operator
+# Note: The - operator only allows you to join sets with sets
+set3 = set1 - set2
+print(set3)  # Output: {'banana', 'cherry'}
+```
+
+#### Symmetric Difference (`symmetric_difference()` or `^`)
+Returns a new set containing items that are NOT present in both sets.
+
+```python
+# symmetric_difference()
+set1 = {"apple", "banana", "cherry"}
+set2 = {"google", "microsoft", "apple"}
+set3 = set1.symmetric_difference(set2)
+print(set3)  # Output: {'banana', 'cherry', 'google', 'microsoft'}
+```
+
+---
+
+### Set Methods
+
+| Method | Operator | Description |
+|---|---|---|
+| `add()` | | Adds an element to the set |
+| `clear()` | | Removes all the elements from the set |
+| `copy()` | | Returns a copy of the set |
+| `difference()` | `-` | Returns a set containing the difference between two or more sets |
+| `difference_update()` | `-=` | Removes the items in this set that are also included in another, specified set |
+| `discard()` | | Remove the specified item |
+| `intersection()` | `&` | Returns a set, that is the intersection of two other sets |
+| `intersection_update()` | `&=` | Removes the items in this set that are not present in other, specified set(s) |
+| `isdisjoint()` | | Returns True if NO items of this set is present in another set |
+| `issubset()` | `<=` | Returns True if all items of this set is present in another set |
+| | `<` | Returns True if all items of this set is present in another, larger set |
+| `issuperset()` | `>=` | Returns True if all items of another set is present in this set |
+| | `>` | Returns True if all items of another, smaller set is present in this set |
+| `pop()` | | Removes an element from the set |
+| `remove()` | | Removes the specified element |
+| `symmetric_difference()` | `^` | Returns a set with the symmetric differences of two sets |
+| `symmetric_difference_update()` | `^=` | Inserts the symmetric differences from this set and another |
+| `union()` | `\|` | Return a set containing the union of sets |
+| `update()` | `\|=` | Update the set with the union of this set and others |
+
+#### 1. `add()`
+```python
+thisset = {"apple", "banana", "cherry"}
+thisset.add("orange")
+print(thisset)  # Output: {'banana', 'orange', 'apple', 'cherry'}
+```
+
+#### 2. `clear()`
+```python
+thisset = {"apple", "banana", "cherry"}
+thisset.clear()
+print(thisset)  # Output: set()
+```
+
+#### 3. `copy()`
+```python
+thisset = {"apple", "banana", "cherry"}
+x = thisset.copy()
+print(x)  # Output: {'banana', 'apple', 'cherry'}
+```
+
+#### 4. `difference()` or `-`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+z = x.difference(y)
+print(z)  # Output: {'banana', 'cherry'}
+```
+
+#### 5. `difference_update()` or `-=`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+x.difference_update(y)
+print(x)  # Output: {'banana', 'cherry'}
+```
+
+#### 6. `discard()`
+```python
+thisset = {"apple", "banana", "cherry"}
+thisset.discard("banana")
+print(thisset)  # Output: {'apple', 'cherry'}
+```
+
+#### 7. `intersection()` or `&`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+z = x.intersection(y)
+print(z)  # Output: {'apple'}
+```
+
+#### 8. `intersection_update()` or `&=`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+x.intersection_update(y)
+print(x)  # Output: {'apple'}
+```
+
+#### 9. `isdisjoint()`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "facebook"}
+z = x.isdisjoint(y)
+print(z)  # Output: True
+```
+
+#### 10. `issubset()` or `<=`
+```python
+x = {"a", "b", "c"}
+y = {"f", "e", "d", "c", "b", "a"}
+z = x.issubset(y)
+print(z)  # Output: True
+```
+
+#### 11. `issuperset()` or `>=`
+```python
+x = {"f", "e", "d", "c", "b", "a"}
+y = {"a", "b", "c"}
+z = x.issuperset(y)
+print(z)  # Output: True
+```
+
+#### 12. `pop()`
+```python
+thisset = {"apple", "banana", "cherry"}
+x = thisset.pop()
+print(x)         # Output: 'cherry' (or any random item)
+print(thisset)   # Output: {'apple', 'banana'}
+```
+
+#### 13. `remove()`
+```python
+thisset = {"apple", "banana", "cherry"}
+thisset.remove("banana")
+print(thisset)  # Output: {'apple', 'cherry'}
+```
+
+#### 14. `symmetric_difference()` or `^`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+z = x.symmetric_difference(y)
+print(z)  # Output: {'banana', 'cherry', 'google', 'microsoft'}
+```
+
+#### 15. `symmetric_difference_update()` or `^=`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+x.symmetric_difference_update(y)
+print(x)  # Output: {'banana', 'cherry', 'google', 'microsoft'}
+```
+
+#### 16. `union()` or `|`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+z = x.union(y)
+print(z)  # Output: {'banana', 'cherry', 'google', 'microsoft', 'apple'}
+```
+
+#### 17. `update()` or `|=`
+```python
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+x.update(y)
+print(x)  # Output: {'banana', 'cherry', 'google', 'microsoft', 'apple'}
+```
+
+---
+
+### Frozenset
+
+A `frozenset` is an **immutable** version of a set.
+
+```python
+x = frozenset({"apple", "banana", "cherry"})
+print(x)        # Output: frozenset({'cherry', 'apple', 'banana'})
+print(type(x))  # Output: <class 'frozenset'>
+```
+
+#### Frozenset Methods
+
+| Method | Operator | Description |
+|---|---|---|
+| `copy()` | | Returns a shallow copy |
+| `difference()` | `-` | Returns a new frozenset with the difference |
+| `intersection()` | `&` | Returns a new frozenset with the intersection |
+| `isdisjoint()` | | Returns True if there is NO intersection between two frozensets |
+| `issubset()` | `<= / <` | Returns True if this frozenset is a (proper) subset of another |
+| `issuperset()` | `>= / >` | Returns True if this frozenset is a (proper) superset of another |
+| `symmetric_difference()`| `^` | Returns a new frozenset with the symmetric differences |
+| `union()` | `\|` | Returns a new frozenset containing the union |
+
+
+#### 1. `copy()`
+```python
+x = frozenset({"apple", "banana", "cherry"})
+y = x.copy()
+print(y)  # Output: frozenset({'cherry', 'apple', 'banana'})
+```
+
+#### 2. `difference()` or `-`
+```python
+x = frozenset({"apple", "banana", "cherry"})
+y = frozenset({"google", "microsoft", "apple"})
+z = x.difference(y)
+print(z)  # Output: frozenset({'banana', 'cherry'})
+```
+
+#### 3. `intersection()` or `&`
+```python
+x = frozenset({"apple", "banana", "cherry"})
+y = frozenset({"google", "microsoft", "apple"})
+z = x.intersection(y)
+print(z)  # Output: frozenset({'apple'})
+```
+
+#### 4. `isdisjoint()`
+```python
+x = frozenset({"apple", "banana", "cherry"})
+y = frozenset({"google", "microsoft", "facebook"})
+z = x.isdisjoint(y)
+print(z)  # Output: True
+```
+
+#### 5. `issubset()` or `<=`
+```python
+x = frozenset({"a", "b", "c"})
+y = frozenset({"f", "e", "d", "c", "b", "a"})
+z = x.issubset(y)
+print(z)  # Output: True
+```
+
+#### 6. `issuperset()` or `>=`
+```python
+x = frozenset({"f", "e", "d", "c", "b", "a"})
+y = frozenset({"a", "b", "c"})
+z = x.issuperset(y)
+print(z)  # Output: True
+```
+
+#### 7. `symmetric_difference()` or `^`
+```python
+x = frozenset({"apple", "banana", "cherry"})
+y = frozenset({"google", "microsoft", "apple"})
+z = x.symmetric_difference(y)
+print(z)  # Output: frozenset({'banana', 'cherry', 'google', 'microsoft'})
+```
+
+#### 8. `union()` or `|`
+```python
+x = frozenset({"apple", "banana", "cherry"})
+y = frozenset({"google", "microsoft", "apple"})
+z = x.union(y)
+print(z)  # Output: frozenset({'banana', 'cherry', 'google', 'microsoft', 'apple'})
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
 
 | Topic | Description |
 |---|---|
-| **Sets** | Unordered, no duplicates |
 | **Dictionaries** | Key-value pairs |
 | **If / Else** | Conditional statements |
 | **Loops** | `for`, `while` loops |
@@ -1334,6 +1809,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Tuples*
+*Python Notes — Up to Sets*
 
 </div>
