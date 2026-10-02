@@ -37,6 +37,13 @@
   - [Copy List](#copy-list)
   - [Join Lists](#join-lists)
   - [List Methods](#list-methods--quick-reference)
+- [Tuples](#tuples)
+  - [Access Tuple Items](#access-tuple-items)
+  - [Update Tuples](#update-tuples)
+  - [Unpack Tuple](#unpack-tuple)
+  - [Loop In Tuple](#loop-in-tuple)
+  - [Join Tuples](#join-tuples)
+  - [Tuple Methods](#tuple-methods)
 
 ---
 
@@ -1090,13 +1097,229 @@ print(list1)  # Output: ['a', 'b', 'c', 1, 2, 3]
 
 ---
 
+
+---
+
+## Tuples
+
+A **tuple** is a collection which is ordered and **unchangeable** (immutable).
+
+| Property | Detail |
+|---|---|
+| **Ordered** | Items have a defined order and keep it |
+| **Unchangeable** | You cannot change, add, or remove items after creation |
+| **Allows Duplicates** | Same value can appear multiple times |
+
+```python
+# Basic tuple
+thistuple = ("apple", "banana", "cherry")
+print(thistuple)  # Output: ('apple', 'banana', 'cherry')
+
+# Without parentheses
+thistuple = "apple", "banana", "cherry"
+print(thistuple)  # Output: ('apple', 'banana', 'cherry')
+
+# Tuple Length
+print(len(thistuple))  # Output: 3
+
+# Tuple with one item (must have a comma)
+thistuple = ("apple",)
+print(type(thistuple))  # Output: <class 'tuple'>
+
+# NOT a tuple (it's a string)
+thistuple = ("apple")
+print(type(thistuple))  # Output: <class 'str'>
+
+# Empty Tuple
+thistuple = ()
+print(type(thistuple))  # Output: <class 'tuple'>
+
+# Mixed Data Types
+tuple1 = ("apple", "banana", "cherry")
+tuple2 = (1, 5, 7, 9, 3)
+tuple3 = (True, False, False)
+
+# The tuple() Constructor
+thistuple = tuple(("apple", "banana", "cherry")) # note the double round-brackets
+print(thistuple)  # Output: ('apple', 'banana', 'cherry')
+```
+
+---
+
+### Access Tuple Items
+
+```python
+# Access Items
+thistuple = ("apple", "banana", "cherry")
+print(thistuple[1])  # Output: banana
+
+# Negative Indexing
+thistuple = ("apple", "banana", "cherry")
+print(thistuple[-1])  # Output: cherry
+
+# Range of indexed
+thistuple = ("apple", "banana", "cherry", "orange", "kiwi", "melon", "mango")
+print(thistuple[2:5])  # Output: ('cherry', 'orange', 'kiwi')
+# Note: The search will start at index 2 (included) and end at index 5 (not included).
+
+# Range of Negative Indexes
+thistuple = ("apple", "banana", "cherry", "orange", "kiwi", "melon", "mango")
+print(thistuple[-4:-1])  # Output: ('orange', 'kiwi', 'melon')
+
+# Check if Item Exists
+thistuple = ("apple", "banana", "cherry")
+if "apple" in thistuple:
+  print("Yes, 'apple' is in the fruits tuple")  # Output: Yes, 'apple' is in the fruits tuple
+```
+
+---
+
+### Update Tuples
+
+Since tuples are **unchangeable**, you cannot add, remove, or change items directly. You must first convert the tuple to a list.
+
+```python
+# Change Tuple values
+x = ("apple", "banana", "cherry")
+y = list(x)
+y[1] = "kiwi"
+x = tuple(y)
+
+# Add Items
+thistuple = ("apple", "banana", "cherry")
+y = list(thistuple)
+y.append("orange")
+thistuple = tuple(y)
+print(y)  # Output: ['apple', 'banana', 'cherry', 'orange']
+
+# Add items using another tuple
+thistuple = ("apple", "banana", "cherry")
+y = ("orange",)
+thistuple += y
+print(thistuple)  # Output: ('apple', 'banana', 'cherry', 'orange')
+
+# Remove Items
+thistuple = ("apple", "banana", "cherry")
+y = list(thistuple) # First convert into list then remove
+y.remove("apple")
+thistuple = tuple(y)
+print(y)  # Output: ['banana', 'cherry']
+
+# Completely Delete tuple
+thistuple = ("apple", "banana", "cherry")
+del thistuple
+# print(thistuple) # this will raise an error because the tuple no longer exists
+```
+
+---
+
+### Unpack Tuple
+
+Extracting values back into variables is called "unpacking".
+
+```python
+# Unpack Tuple
+fruits = ("apple", "banana", "cherry")
+
+(green, yellow, red) = fruits
+
+print(green)   # Output: apple
+print(yellow)  # Output: banana
+print(red)     # Output: cherry
+
+# Using Asterisk
+# If the number of variables is less than the number of values,
+# you can add an * to the variable name and the values will be assigned to it as a list.
+fruits = ("apple", "banana", "cherry", "strawberry", "raspberry")
+
+(green, yellow, *red) = fruits
+
+print(green)   # Output: apple
+print(yellow)  # Output: banana
+print(red)     # Output: ['cherry', 'strawberry', 'raspberry']
+```
+
+---
+
+### Loop In Tuple
+
+```python
+# Loop
+thistuple = ("apple", "banana", "cherry")
+for x in thistuple:
+  print(x)
+  # Output: 
+  # apple
+  # banana
+  # cherry
+
+# Loop Through index number
+thistuple = ("apple", "banana", "cherry")
+for i in range(len(thistuple)):
+  print(thistuple[i])
+  # Output:
+  # apple
+  # banana
+  # cherry
+
+# Using while loop
+thistuple = ("apple", "banana", "cherry")
+i = 0
+while i < len(thistuple):
+  print(thistuple[i])
+  i = i + 1
+  # Output:
+  # apple
+  # banana
+  # cherry
+```
+
+---
+
+### Join Tuples
+
+```python
+# Join Two Tuples
+tuple1 = ("a", "b" , "c")
+tuple2 = (1, 2, 3)
+
+tuple3 = tuple1 + tuple2
+print(tuple3)  # Output: ('a', 'b', 'c', 1, 2, 3)
+
+# Multiply Tuples
+fruits = ("apple", "banana", "cherry")
+mytuple = fruits * 2
+
+print(mytuple)  # Output: ('apple', 'banana', 'cherry', 'apple', 'banana', 'cherry')
+```
+
+---
+
+### Tuple Methods
+
+| Method | Description |
+|---|---|
+| `count(value)` | Returns the number of times a specified value occurs in a tuple |
+| `index(value)` | Searches the tuple for a specified value and returns the position of where it was found |
+
+```python
+# count()
+thistuple = (1, 3, 7, 8, 7, 5, 4, 6, 8, 5)
+x = thistuple.count(5)
+print(x)  # Output: 2
+
+# index()
+thistuple = (1, 3, 7, 8, 7, 5, 4, 6, 8, 5)
+x = thistuple.index(8)
+print(x)  # Output: 3
+```
+
 ## What's Next
 
 Topics coming up in practice:
 
 | Topic | Description |
 |---|---|
-| **Tuples** | Ordered, unchangeable collection |
 | **Sets** | Unordered, no duplicates |
 | **Dictionaries** | Key-value pairs |
 | **If / Else** | Conditional statements |
@@ -1111,6 +1334,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Lists*
+*Python Notes — Up to Tuples*
 
 </div>
