@@ -66,6 +66,9 @@
   - [Nested If Else](#nested-if-else)
   - [The pass Statement](#the-pass-statement)
   - [Match Statement](#match-statement)
+- [Loops](#loops)
+  - [While Loop](#while-loop)
+  - [For Loop](#for-loop)
 
 ---
 
@@ -2414,13 +2417,152 @@ match day:
 
 ---
 
+---
+
+## Loops
+
+Python has two primitive loop commands:
+* `while` loops
+* `for` loops
+
+### While Loop
+
+With the `while` loop we can execute a set of statements as long as a condition is true.
+
+```python
+# while loop
+i = 1
+while i < 6:
+  print(i)
+  i += 1
+# Output:
+# 1
+# 2
+# 3
+# 4
+# 5
+```
+
+#### The break Statement
+With the `break` statement we can stop the loop even if the while condition is true.
+
+```python
+# Break Statement
+i = 1
+while i < 6:
+  print(i)
+  if i == 3:
+    break
+  i += 1
+# Output:
+# 1
+# 2
+# 3
+```
+
+#### The continue Statement
+With the `continue` statement we can stop the current iteration, and continue with the next.
+
+```python
+# Continue Statement
+i = 0
+while i < 6:
+  i += 1
+  if i == 3:
+    continue
+  print(i)
+# Output:
+# 1
+# 2
+# 4
+# 5
+# 6
+```
+
+#### The else Statement
+With the `else` statement we can run a block of code once when the condition no longer is true.
+
+```python
+# Else Statement
+i = 1
+while i < 6:
+  print(i)
+  i += 1
+else:
+  print("i is no longer less than 6")
+# Output:
+# 1
+# 2
+# 3
+# 4
+# 5
+# i is no longer less than 6
+```
+
+---
+
+### For Loop
+
+A `for` loop is used for iterating over a sequence (that is either a list, a tuple, a dictionary, a set, or a string).
+
+```python
+# For Loop
+fruits = ["apple", "banana", "cherry"]
+for x in fruits:
+  print(x)
+# Output:
+# apple
+# banana
+# cherry
+```
+
+#### The range() Function
+To loop through a set of code a specified number of times, we can use the `range()` function.
+
+```python
+# Range
+for x in range(6):
+  print(x)
+# Output:
+# 0
+# 1
+# 2
+# 3
+# 4
+# 5
+```
+
+#### Nested Loops
+A nested loop is a loop inside a loop. The "inner loop" will be executed one time for each iteration of the "outer loop".
+
+```python
+# Nested For Loop
+adj = ["red", "big", "tasty"]
+fruits = ["apple", "banana", "cherry"]
+
+for x in adj:
+  for y in fruits:
+    print(x, y)
+# Output:
+# red apple
+# red banana
+# red cherry
+# big apple
+# big banana
+# big cherry
+# tasty apple
+# tasty banana
+# tasty cherry
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
 
 | Topic | Description |
 |---|---|
-| **Loops** | `for`, `while` loops |
 | **Functions** | Defining and calling functions |
 | **Lambda** | Anonymous functions |
 | **Classes & Objects** | Object-oriented programming |
@@ -2431,6 +2573,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Conditional Statements*
+*Python Notes — Up to Loops*
 
 </div>
