@@ -61,6 +61,11 @@
   - [Copy Dictionary](#copy-dictionary)
   - [Nested Dictionaries](#nested-dictionaries)
   - [Dictionary Methods](#dictionary-methods)
+- [Conditional Statements](#conditional-statements)
+  - [Logical Operators in Conditions](#logical-operators-in-conditions)
+  - [Nested If Else](#nested-if-else)
+  - [The pass Statement](#the-pass-statement)
+  - [Match Statement](#match-statement)
 
 ---
 
@@ -2218,13 +2223,203 @@ x = car.values()
 print(x)  # Output: dict_values(['Ford', 'Mustang', 1964])
 ```
 
+---
+
+## Conditional Statements
+
+Python supports the usual logical conditions from mathematics:
+* Equals: `a == b`
+* Not Equals: `a != b`
+* Less than: `a < b`
+* Less than or equal to: `a <= b`
+* Greater than: `a > b`
+* Greater than or equal to: `a >= b`
+
+These conditions can be used in several ways, most commonly in `if` statements and loops.
+
+```python
+# Basic If, Elif, Else
+a = 200
+b = 33
+if b > a:
+  print("b is greater than a")
+elif a == b:
+  print("a and b are equal")
+else:
+  print("a is greater than b")
+  # Output: a is greater than b
+
+# More Examples
+temperature = 22
+
+if temperature > 30:
+  print("It's hot outside!")
+elif temperature > 20:
+  print("It's warm outside")
+elif temperature > 10:
+  print("It's cool outside")
+else:
+  print("It's cold outside!")
+  # Output: It's warm outside
+```
+
+#### Short Hand If / If...Else
+If you have only one statement to execute, you can put it on the same line as the if statement.
+
+```python
+a = 200
+b = 33
+
+# Short hand if
+if a > b: print("a is greater than b")
+
+# Short hand if...else (Ternary Operator)
+a = 2
+b = 330
+print("A") if a > b else print("B")  # Output: B
+
+# Multiple Conditions on One line
+a = 330
+b = 330
+print("A") if a > b else print("=") if a == b else print("B")  # Output: =
+```
+
+---
+
+### Logical Operators in Conditions
+
+Logical operators (`and`, `or`, `not`) are used to combine conditional statements.
+
+```python
+# And Operator
+a = 200
+b = 33
+c = 500
+if a > b and c > a:
+  print("Both conditions are True")  # Output: Both conditions are True
+
+# Or operator
+a = 200
+b = 33
+c = 500
+if a > b or a > c:
+  print("At least one of the conditions is True")  # Output: At least one of the conditions is True
+
+# Not operator
+a = 33
+b = 200
+if not a > b:
+  print("a is NOT greater than b")  # Output: a is NOT greater than b
+
+# Combining Multiple Operators
+age = 25
+is_student = False
+has_discount_code = True
+
+if (age < 18 or age > 65) and not is_student or has_discount_code:
+  print("Discount applies!")  # Output: Discount applies!
+```
+
+---
+
+### Nested If Else
+
+You can have `if` statements inside `if` statements, this is called *nested* `if` statements.
+
+```python
+score = 85
+attendance = 90
+submitted = True
+
+if score >= 60:
+  if attendance >= 80:
+    if submitted:
+      print("Pass with good standing")  # Output: Pass with good standing
+    else:
+      print("Pass but missing assignment")
+  else:
+    print("Pass but low attendance")
+else:
+  print("Fail")
+```
+
+---
+
+### The pass Statement
+
+`if` statements cannot be empty, but if you for some reason have an `if` statement with no content, put in the `pass` statement to avoid getting an error.
+
+```python
+a = 33
+b = 200
+
+if b > a:
+  pass
+
+# Example of using pass as a placeholder
+age = 20
+
+if age < 18:
+  pass # TODO: Add underage logic later
+else:
+  print("Access granted")  # Output: Access granted
+```
+
+---
+
+### Match Statement
+
+Starting in Python 3.10, the `match` statement evaluates an expression and compares its value to successive `case` blocks (similar to `switch` in other languages).
+
+```python
+# Match
+day = 4
+match day:
+  case 1:
+    print("Monday")
+  case 2:
+    print("Tuesday")
+  case 3:
+    print("Wednesday")
+  case 4:
+    print("Thursday")
+  case 5:
+    print("Friday")
+  case 6:
+    print("Saturday")
+  case 7:
+    print("Sunday")
+# Output: Thursday
+
+# With Default Value (case _)
+day = 4
+match day:
+  case 6:
+    print("Today is Saturday")
+  case 7:
+    print("Today is Sunday")
+  case _:
+    print("Looking forward to the Weekend")
+# Output: Looking forward to the Weekend
+
+# Combine Values (using |)
+day = 4
+match day:
+  case 1 | 2 | 3 | 4 | 5:
+    print("Today is a weekday")
+  case 6 | 7:
+    print("I love weekends!")
+# Output: Today is a weekday
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
 
 | Topic | Description |
 |---|---|
-| **If / Else** | Conditional statements |
 | **Loops** | `for`, `while` loops |
 | **Functions** | Defining and calling functions |
 | **Lambda** | Anonymous functions |
@@ -2236,6 +2431,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Dictionaries*
+*Python Notes — Up to Conditional Statements*
 
 </div>
