@@ -77,6 +77,8 @@
   - [Decorators](#decorators)
 - [Range](#range)
 - [Modules](#modules)
+- [Datetime](#datetime)
+- [Math](#math)
 
 ---
 
@@ -3029,6 +3031,140 @@ print(x)  # Output: ['_Processor', '_WIN32_CLIENT_RELEASES', '_WIN32_SERVER_RELE
 
 ---
 
+## Datetime
+
+A date in Python is not a data type of its own, but we can import a module named `datetime` to work with dates as date objects.
+
+### Dates
+
+When we execute the code to get the current date, the result contains the year, month, day, hour, minute, second, and microsecond.
+
+```python
+import datetime
+
+# Get the current date and time
+x = datetime.datetime.now()
+print(x)
+# Output: 2024-10-03 15:14:38.256000 (Example)
+
+# Return the year and name of weekday
+x = datetime.datetime.now()
+print(x.year)  # Output: 2024 (Example)
+print(x.strftime("%A"))  # Output: Thursday (Example)
+```
+
+### Creating Date Objects
+
+To create a date, we can use the `datetime()` class (constructor) of the `datetime` module.
+The `datetime()` class requires three parameters to create a date: year, month, day.
+
+```python
+import datetime
+
+x = datetime.datetime(2020, 5, 17)
+print(x)
+# Output: 2020-05-17 00:00:00
+```
+
+### The strftime() Method
+
+The `datetime` object has a method for formatting date objects into readable strings. The method is called `strftime()`, and takes one parameter, `format`, to specify the format of the returned string.
+
+```python
+import datetime
+
+x = datetime.datetime(2018, 6, 1)
+
+# Display the name of the month
+print(x.strftime("%B"))  # Output: June
+```
+
+#### Reference of Formatting Codes:
+
+| Directive | Description | Example |
+|---|---|---|
+| `%a` | Weekday, short version | Wed |
+| `%A` | Weekday, full version | Wednesday |
+| `%w` | Weekday as a number 0-6, 0 is Sunday | 3 |
+| `%d` | Day of month 01-31 | 31 |
+| `%b` | Month name, short version | Dec |
+| `%B` | Month name, full version | December |
+| `%m` | Month as a number 01-12 | 12 |
+| `%y` | Year, short version, without century | 18 |
+| `%Y` | Year, full version | 2018 |
+| `%H` | Hour 00-23 | 17 |
+| `%I` | Hour 00-12 | 05 |
+| `%p` | AM/PM | PM |
+| `%M` | Minute 00-59 | 41 |
+| `%S` | Second 00-59 | 08 |
+| `%f` | Microsecond 000000-999999 | 548513 |
+| `%z` | UTC offset | +0100 |
+| `%Z` | Timezone | CST |
+| `%j` | Day number of year 001-366 | 365 |
+| `%U` | Week number of year, Sunday as the first day of week, 00-53 | 52 |
+| `%W` | Week number of year, Monday as the first day of week, 00-53 | 52 |
+| `%c` | Local version of date and time | Mon Dec 31 17:41:00 2018 |
+| `%C` | Century | 20 |
+| `%x` | Local version of date | 12/31/18 |
+| `%X` | Local version of time | 17:41:00 |
+| `%%` | A % character | % |
+| `%G` | ISO 8601 year | 2018 |
+| `%u` | ISO 8601 weekday (1-7) | 1 |
+| `%V` | ISO 8601 weeknumber (01-53) | 01 |
+
+---
+
+## Math
+
+Python has a set of built-in math functions, including an extensive `math` module, that allows you to perform mathematical tasks on numbers.
+
+### Built-in Math Functions
+
+You can use built-in functions like `min()`, `max()`, `abs()`, and `pow()` without importing any modules.
+
+```python
+# min() and max()
+x = min(5, 10, 25)
+y = max(5, 10, 25)
+
+print(x)  # Output: 5
+print(y)  # Output: 25
+
+# abs(): Returns the absolute (positive) value of the specified number
+x = abs(-7.25)
+print(x)  # Output: 7.25
+
+# pow(x, y): Returns the value of x to the power of y (x^y)
+x = pow(4, 3)
+print(x)  # Output: 64
+```
+
+### The Math Module
+
+Python has also a built-in module called `math`, which extends the list of mathematical functions.
+To use it, you must `import math`.
+
+```python
+import math
+
+# math.sqrt(): Returns the square root of a number
+x = math.sqrt(64)
+print(x)  # Output: 8.0
+
+# math.ceil() and math.floor()
+x = math.ceil(1.4)   # Rounds a number UP to the nearest integer
+y = math.floor(1.4)  # Rounds a number DOWN to the nearest integer
+
+print(x)  # Output: 2
+print(y)  # Output: 1
+
+# math.pi: Returns the value of PI (3.14...)
+x = math.pi
+print(x)  # Output: 3.141592653589793
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
@@ -3042,6 +3178,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Modules*
+*Python Notes — Up to Math*
 
 </div>
