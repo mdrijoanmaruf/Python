@@ -76,6 +76,7 @@
   - [Recursion](#recursion)
   - [Decorators](#decorators)
 - [Range](#range)
+- [Modules](#modules)
 
 ---
 
@@ -2948,6 +2949,86 @@ for i in range(10):
 
 ---
 
+## Modules
+
+Consider a module to be the same as a code library: a file containing a set of functions or variables you want to include in your application.
+
+### Creating a Module
+
+To create a module, save the code you want in a file with the file extension `.py`. For example, `Module.py`:
+
+```python
+# Module.py
+def greeting(name):
+  print("Hello, " + name)
+
+person1 = {
+  "name": "Rijoan Maruf",
+  "age": 24,
+  "country": "Bangladesh"
+}
+```
+
+### Using a Module
+
+You can use the module we just created by using the `import` statement.
+
+```python
+import Module
+
+# Use a function from the module
+Module.greeting("Rijoan")  # Output: Hello, Rijoan
+
+# Use a variable from the module
+a = Module.person1["age"]
+print(a)  # Output: 24
+```
+
+### Re-naming a Module
+
+You can create an alias when you import a module by using the `as` keyword:
+
+```python
+import Module as mx
+
+a = mx.person1["age"]
+print(a)  # Output: 24
+```
+
+### Import From Module
+
+You can choose to import only parts from a module using the `from` keyword.
+*(Note: When importing using the `from` keyword, do not use the module name when referring to elements in the module.)*
+
+```python
+from Module import person1
+
+print(person1["age"])  # Output: 24
+```
+
+### Built-in Modules
+
+Python comes with several built-in modules that you can import whenever you like.
+
+```python
+import platform
+
+x = platform.system()
+print(x)  # Output: Windows (or Linux/Darwin)
+```
+
+#### The dir() Function
+There is a built-in function to list all the function names (or variable names) in a module. The `dir()` function can be used on all modules, including the ones you create yourself.
+
+```python
+import platform
+
+x = dir(platform)
+print(x)  # Output: ['_Processor', '_WIN32_CLIENT_RELEASES', '_WIN32_SERVER_RELEASES', ... ]
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
@@ -2955,13 +3036,12 @@ Topics coming up in practice:
 | Topic | Description |
 |---|---|
 | **Classes & Objects** | Object-oriented programming |
-| **Modules** | Importing and using modules |
 | **File Handling** | Read and write files |
 
 ---
 
 <div align="center">
 
-*Python Notes — Up to Range*
+*Python Notes — Up to Modules*
 
 </div>
