@@ -69,6 +69,12 @@
 - [Loops](#loops)
   - [While Loop](#while-loop)
   - [For Loop](#for-loop)
+- [Functions](#functions)
+  - [Function Arguments](#function-arguments)
+  - [Lambda Functions](#lambda-functions)
+  - [Scope](#scope)
+  - [Recursion](#recursion)
+  - [Decorators](#decorators)
 
 ---
 
@@ -2557,14 +2563,344 @@ for x in adj:
 
 ---
 
+---
+
+## Functions
+
+A function is a block of code which only runs when it is called. You can pass data, known as parameters, into a function.
+
+```python
+# Creating a Function
+def my_function():
+  print("Hello from a function")
+
+# Calling a Function
+my_function()  # Output: Hello from a function
+
+# Return values
+def get_greeting():
+  return "Hello from a function"
+
+message = get_greeting()
+print(message)  # Output: Hello from a function
+
+# The pass Statement
+# Function definitions cannot be empty. If you need to create a function placeholder without any code, use the pass statement:
+def my_function():
+  pass
+```
+
+> **Function Naming Rules:**
+> - Must start with a letter or underscore (`_`).
+> - Can only contain letters, numbers, and underscores.
+> - Case-sensitive (`myFunction` and `myfunction` are different).
+
+---
+
+### Function Arguments
+
+A **parameter** is the variable listed inside the parentheses in the function definition.
+An **argument** is the actual value that is sent to the function when it is called.
+
+```python
+# Arguments
+def my_function(fname):
+  print("Hello ,", fname)
+
+my_function("Rijoan")  # Output: Hello , Rijoan
+my_function("Maruf")   # Output: Hello , Maruf
+
+# Default Parameter
+def my_function(name="friend"):
+  print("Hello", name)
+
+my_function("Rijoan")  # Output: Hello Rijoan
+my_function()          # Output: Hello friend
+
+# Keyword Arguments
+def my_function(animal, name):
+  print("I have a", animal)
+  print("My", animal + "'s name is", name)
+
+my_function(animal="dog", name="Buddy")
+# Output:
+# I have a dog
+# My dog's name is Buddy
+
+# Mixing Positional and Keyword Arguments
+# Positional arguments must come before keyword arguments:
+def my_function(animal, name, age):
+  print("I have a", age, "year old", animal, "named", name)
+
+my_function("dog", name="Buddy", age=5)
+# Output: I have a 5 year old dog named Buddy
+
+# Returning Different Data Types
+def my_function():
+  return (10, 20)
+
+x, y = my_function()
+print("x:", x)  # Output: x: 10
+print("y:", y)  # Output: y: 20
+```
+
+#### `*args` (Arbitrary Arguments)
+Accepts any number of positional arguments as a tuple.
+
+```python
+def my_function(*kids):
+  print("The youngest child is " + kids[2])
+
+my_function("Emil", "Tobias", "Linus")  # Output: The youngest child is Linus
+
+# Practical Example
+def my_function(*numbers):
+  total = 0
+  for num in numbers:
+    total += num
+  return total
+
+print(my_function(1, 2, 3))         # Output: 6
+print(my_function(10, 20, 30, 40))  # Output: 100
+```
+
+#### `**kwargs` (Arbitrary Keyword Arguments)
+Accepts any number of keyword arguments as a dictionary.
+
+```python
+def my_function(**myvar):
+  print("Name:", myvar["name"])
+  print("Age:", myvar["age"])
+  print("All data:", myvar)
+
+my_function(name="Tobias", age=30, city="Bergen")
+# Output:
+# Name: Tobias
+# Age: 30
+# All data: {'name': 'Tobias', 'age': 30, 'city': 'Bergen'}
+
+# Combining *args and **kwargs
+def my_function(title, *args, **kwargs):
+  print("Title:", title)
+  print("Positional arguments:", args)
+  print("Keyword arguments:", kwargs)
+
+my_function("User Info", "Emil", "Tobias", age=25, city="Oslo")
+# Output:
+# Title: User Info
+# Positional arguments: ('Emil', 'Tobias')
+# Keyword arguments: {'age': 25, 'city': 'Oslo'}
+```
+
+#### Unpacking Arguments
+You can unpack lists with `*` and dictionaries with `**` when calling a function.
+
+```python
+# Lists with *
+def my_function(a, b, c):
+  return a + b + c
+
+numbers = [1, 2, 3]
+result = my_function(*numbers)  # Same as: my_function(1, 2, 3)
+print(result)  # Output: 6
+
+# Dictionaries with **
+def my_function(fname, lname):
+  print("Hello", fname, lname)
+
+person = {"fname": "Emil", "lname": "Rijoan"}
+my_function(**person)  # Output: Hello Emil Rijoan
+```
+
+---
+
+### Lambda Functions
+
+A lambda function is a small **anonymous** function. It can take any number of arguments, but can only have **one expression**.
+
+```python
+x = lambda a : a + 10
+print(x(5))  # Output: 15
+
+# map(): Applies a function to every item in an iterable
+numbers = [1, 2, 3, 4, 5]
+doubled = list(map(lambda x: x * 2, numbers))
+print(doubled)  # Output: [2, 4, 6, 8, 10]
+
+# filter(): Creates a list of items for which a function returns True
+numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+odd_numbers = list(filter(lambda x: x % 2 != 0, numbers))
+print(odd_numbers)  # Output: [1, 3, 5, 7]
+
+# sorted(): Can use a lambda as a key for custom sorting
+students = [("Emil", 25), ("Tobias", 22), ("Linus", 28)]
+sorted_students = sorted(students, key=lambda x: x[1])
+print(sorted_students)  # Output: [('Tobias', 22), ('Emil', 25), ('Linus', 28)]
+```
+
+---
+
+### Scope
+
+A variable is only available from inside the region it is created. This is called **scope**. Python follows the **LEGB rule** when looking up variable names:
+1. **Local** - Inside the current function
+2. **Enclosing** - Inside enclosing functions (from inner to outer)
+3. **Global** - At the top level of the module
+4. **Built-in** - In Python's built-in namespace
+
+```python
+# Local Scope
+def myfunc():
+  x = 300
+  print(x)
+
+myfunc()  # Output: 300
+
+# Global Scope
+x = 300
+def myfunc():
+  print(x)
+
+myfunc()  # Output: 300
+print(x)  # Output: 300
+
+# Global keyword (Modifying a global variable inside a function)
+def myfunc():
+  global x
+  x = 300
+
+myfunc()
+print(x)  # Output: 300
+
+# Nonlocal Keyword (Modifying an enclosing variable)
+def myfunc1():
+  x = "Rijoan"
+  def myfunc2():
+    nonlocal x
+    x = "hello"
+  myfunc2()
+  return x
+
+print(myfunc1())  # Output: hello
+```
+
+---
+
+### Recursion
+
+Recursion is when a function calls itself. Every recursive function must have two parts:
+1. **A base case** - A condition that stops the recursion.
+2. **A recursive case** - The function calling itself with a modified argument.
+
+```python
+# Example 1: Countdown
+def countdown(n):
+  if n <= 0:
+    print("Done!")
+  else:
+    print(n)
+    countdown(n - 1)
+
+countdown(3)
+# Output:
+# 3
+# 2
+# 1
+# Done!
+
+# Example 2: Factorial
+def factorial(n):
+  if n == 0 or n == 1:
+    return 1  # Base case
+  else:
+    return n * factorial(n - 1)  # Recursive case
+
+print(factorial(5))  # Output: 120
+
+# Example 3: Fibonacci Sequence
+def fibonacci(n):
+  if n <= 1:
+    return n
+  else:
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+print(fibonacci(7))  # Output: 13
+
+# Example 4: Recursion with Lists
+def sum_list(numbers):
+  if len(numbers) == 0:
+    return 0
+  else:
+    return numbers[0] + sum_list(numbers[1:])
+
+my_list = [1, 2, 3, 4, 5]
+print(sum_list(my_list))  # Output: 15
+```
+
+---
+
+### Decorators
+
+Decorators let you add extra behavior to a function without changing the function's code.
+
+```python
+# Basic Decorator
+def changecase(func):
+  def myinner():
+    return func().upper()
+  return myinner
+
+@changecase
+def myfunction():
+  return "Hello Sally"
+
+print(myfunction())  # Output: HELLO SALLY
+
+# Multiple Decorator Calls
+@changecase
+def otherfunction():
+  return "I am speed!"
+
+print(otherfunction())  # Output: I AM SPEED!
+
+# Arguments in the Decorated Function
+def changecase_with_args(func):
+  def myinner(x):
+    return func(x).upper()
+  return myinner
+
+@changecase_with_args
+def greet(name):
+  return "Hello " + name
+
+print(greet("John"))  # Output: HELLO JOHN
+
+# Decorator with arguments
+def changecase_choice(n):
+  def decorator(func):
+    def myinner():
+      if n == 1:
+        return func().lower()
+      else:
+        return func().upper()
+    return myinner
+  return decorator
+
+@changecase_choice(1)
+def myfunction2():
+  return "Hello Linus"
+
+print(myfunction2())  # Output: hello linus
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
 
 | Topic | Description |
 |---|---|
-| **Functions** | Defining and calling functions |
-| **Lambda** | Anonymous functions |
 | **Classes & Objects** | Object-oriented programming |
 | **Modules** | Importing and using modules |
 | **File Handling** | Read and write files |
@@ -2573,6 +2909,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Loops*
+*Python Notes — Up to Functions*
 
 </div>
