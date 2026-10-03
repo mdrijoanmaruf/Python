@@ -75,6 +75,7 @@
   - [Scope](#scope)
   - [Recursion](#recursion)
   - [Decorators](#decorators)
+- [Range](#range)
 
 ---
 
@@ -2895,6 +2896,58 @@ print(myfunction2())  # Output: hello linus
 
 ---
 
+## Range
+
+The built-in `range()` function returns an **immutable** sequence of numbers, commonly used for looping a specific number of times. (Immutable means that it cannot be modified after it is created).
+
+### Usage
+
+```python
+# Call range() With One Argument
+x = range(10)
+print(x)         # Output: range(0, 10)
+print(list(x))   # Output: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Call range() With Two Arguments (start, stop)
+x = range(3, 10)
+print(x)         # Output: range(3, 10)
+print(list(x))   # Output: [3, 4, 5, 6, 7, 8, 9]
+
+# Call range() with Three Arguments (start, stop, step)
+x = range(3, 10, 2)
+print(x)         # Output: range(3, 10, 2)
+print(list(x))   # Output: [3, 5, 7, 9]
+```
+
+### Length
+
+```python
+# Length
+r = range(0, 10, 2)
+print(len(r))  # Output: 5
+```
+
+### For loop using `range()`
+
+```python
+# For loop using range()
+for i in range(10):
+  print(i)
+# Output:
+# 0
+# 1
+# 2
+# 3
+# 4
+# 5
+# 6
+# 7
+# 8
+# 9
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
@@ -2909,6 +2962,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Functions*
+*Python Notes — Up to Range*
 
 </div>
