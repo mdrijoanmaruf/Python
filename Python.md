@@ -11,7 +11,7 @@
 ## Table of Contents
 
 - [Intro](#intro)
-- [Print, Comment, Variable and Naming](#print--comment--variable-and-naming)
+- [Print, User Input, Comment, Variable and Naming](#print--user-input--comment--variable-and-naming)
 - [Type Casting](#type-casting)
 - [Data Types](#data-types)
   - [Numbers](#numbers)
@@ -79,6 +79,10 @@
 - [Modules](#modules)
 - [Datetime](#datetime)
 - [Math](#math)
+- [JSON](#json)
+- [RegEx](#regex)
+- [PIP](#pip)
+- [Try Except](#try-except)
 
 ---
 
@@ -100,7 +104,7 @@ print("It is awesome!")
 
 ---
 
-## Print , Comment , Variable and Naming
+## Print , User Input , Comment , Variable and Naming
 
 ### Print
 
@@ -112,6 +116,25 @@ print(10)                       # Number output
 print("Hello", "World")         # Multiple values (separated by space)
 print("a", "b", "c", sep="-")   # Custom separator — Output: a-b-c
 print("Hello", end=" ")         # Custom end character (default is newline)
+```
+
+---
+
+### User Input
+
+Python allows for user input. That means we are able to ask the user for input using the `input()` function.
+
+```python
+username = input("Enter username: ")
+print("Username is: " + username)
+```
+*(Execution pauses and waits for the user to type something and press Enter)*
+
+By default, the `input()` function always returns a string. If you expect a number, you must cast it (e.g., using `int()` or `float()`):
+
+```python
+age = int(input("Enter your age: "))
+print(age + 1)
 ```
 
 ---
@@ -3165,6 +3188,380 @@ print(x)  # Output: 3.141592653589793
 
 ---
 
+## JSON
+
+JSON is a syntax for storing and exchanging data. JSON is text, written with JavaScript object notation.
+Python has a built-in package called `json`, which can be used to work with JSON data.
+
+```python
+import json
+```
+
+### Parse JSON (Convert from JSON to Python)
+
+If you have a JSON string, you can parse it by using the `json.loads()` method. The result will be a Python dictionary.
+
+```python
+import json
+
+# Some JSON string
+x = '{"name":"Rijoan Maruf", "age":24, "city":"Dhaka"}'
+
+# Parse x
+y = json.loads(x)
+
+# The result is a Python dictionary
+print(y["age"])  # Output: 24
+```
+
+### Convert from Python to JSON
+
+If you have a Python object, you can convert it into a JSON string by using the `json.dumps()` method.
+
+```python
+import json
+
+# A Python object (dict)
+x = {
+  "name": "Rijoan Maruf",
+  "age": 24,
+  "city": "Dhaka"
+}
+
+# Convert into JSON string
+y = json.dumps(x)
+
+# The result is a JSON string
+print(y)  # Output: {"name": "Rijoan Maruf", "age": 24, "city": "Dhaka"}
+```
+
+You can convert Python objects of the following types into JSON strings: `dict`, `list`, `tuple`, `string`, `int`, `float`, `True`, `False`, `None`.
+
+### Format the Result
+
+The `json.dumps()` method has parameters to make it easier to read the result.
+
+```python
+import json
+
+x = {
+  "name": "Rijoan Maruf",
+  "age": 24,
+  "married": True,
+  "divorced": False,
+  "children": ("Ann","Billy"),
+  "pets": None,
+  "cars": [
+    {"model": "BMW 230", "mpg": 27.5},
+    {"model": "Ford Edge", "mpg": 24.1}
+  ]
+}
+
+# Use the indent parameter to define the numbers of indents
+print(json.dumps(x, indent=4))
+# Output:
+# {
+#     "name": "Rijoan Maruf",
+#     "age": 24,
+#     "married": true,
+#     "divorced": false,
+#     "children": [
+#         "Ann",
+#         "Billy"
+#     ],
+#     "pets": null,
+#     "cars": [
+#         {
+#             "model": "BMW 230",
+#             "mpg": 27.5
+#         },
+#         {
+#             "model": "Ford Edge",
+#             "mpg": 24.1
+#         }
+#     ]
+# }
+
+# Use the separators parameter to change the default separator
+# The default is (", ", ": "), which means a comma and a space, and a colon and a space.
+print(json.dumps(x, indent=4, separators=(". ", " = ")))
+
+# Use the sort_keys parameter to specify if the result should be sorted or not
+print(json.dumps(x, indent=4, sort_keys=True))
+```
+
+---
+
+## RegEx
+
+A RegEx, or Regular Expression, is a sequence of characters that forms a search pattern.
+RegEx can be used to check if a string contains the specified search pattern.
+Python has a built-in package called `re`, which can be used to work with Regular Expressions.
+
+```python
+import re
+
+# Search the string to see if it starts with "The" and ends with "Spain":
+txt = "The rain in Spain"
+x = re.search("^The.*Spain$", txt)
+
+if x:
+  print("YES! We have a match!")
+else:
+  print("No match")
+# Output: YES! We have a match!
+```
+
+### The `re` Functions
+
+The `re` module offers a set of functions that allows us to search a string for a match:
+
+| Function | Description |
+|---|---|
+| `findall()` | Returns a list containing all matches |
+| `search()` | Returns a Match object if there is a match anywhere in the string |
+| `split()` | Returns a list where the string has been split at each match |
+| `sub()` | Replaces one or many matches with a string |
+
+#### 1. The findall() Function
+The `findall()` function returns a list containing all matches.
+
+```python
+import re
+
+txt = "The rain in Spain"
+x = re.findall("ai", txt)
+print(x)  # Output: ['ai', 'ai']
+
+# If no matches are found, an empty list is returned:
+y = re.findall("Portugal", txt)
+print(y)  # Output: []
+```
+
+#### 2. The search() Function
+The `search()` function searches the string for a match, and returns a Match object if there is a match. If there is more than one match, only the first occurrence of the match will be returned.
+
+```python
+import re
+
+txt = "The rain in Spain"
+x = re.search("\s", txt)
+
+print("The first white-space character is located in position:", x.start()) 
+# Output: The first white-space character is located in position: 3
+```
+
+#### 3. The split() Function
+The `split()` function returns a list where the string has been split at each match.
+
+```python
+import re
+
+txt = "The rain in Spain"
+# Split at each white-space character:
+x = re.split("\s", txt)
+print(x)  # Output: ['The', 'rain', 'in', 'Spain']
+
+# You can control the number of occurrences by specifying the maxsplit parameter:
+y = re.split("\s", txt, 1)
+print(y)  # Output: ['The', 'rain in Spain']
+```
+
+#### 4. The sub() Function
+The `sub()` function replaces the matches with the text of your choice.
+
+```python
+import re
+
+txt = "The rain in Spain"
+# Replace every white-space character with the number 9:
+x = re.sub("\s", "9", txt)
+print(x)  # Output: The9rain9in9Spain
+```
+
+### Match Object
+
+A Match Object is an object containing information about the search and the result.
+If there is no match, the value `None` will be returned, instead of the Match Object.
+
+The Match object has properties and methods used to retrieve information about the search, and the result:
+* `.span()`: returns a tuple containing the start-, and end positions of the match.
+* `.string`: returns the string passed into the function
+* `.group()`: returns the part of the string where there was a match
+
+```python
+import re
+
+txt = "The rain in Spain"
+x = re.search(r"\bS\w+", txt)
+
+print(x.span())    # Output: (12, 17)
+print(x.string)    # Output: The rain in Spain
+print(x.group())   # Output: Spain
+```
+
+---
+
+## PIP
+
+PIP is a package manager for Python packages, or modules if you like.
+
+> **Note:** If you have Python version 3.4 or later, PIP is included by default.
+
+### What is a Package?
+A package contains all the files you need for a module. Modules are Python code libraries you can include in your project.
+
+### Check if PIP is Installed
+
+Navigate your command line to the location of Python's script directory, and type the following:
+
+```bash
+pip --version
+```
+
+### Download a Package
+
+Downloading a package is very easy. Open the command line interface and tell PIP to download the package you want.
+
+```bash
+# Download a package named "camelcase"
+pip install camelcase
+```
+
+### Using a Package
+
+Once the package is installed, it is ready to use. Import the "camelcase" package into your project.
+
+```python
+import camelcase
+
+c = camelcase.CamelCase()
+txt = "hello world"
+
+print(c.hump(txt))  
+# Output: Hello World
+```
+
+### Find Packages
+
+Find more packages at the Python Package Index (PyPI): [https://pypi.org/](https://pypi.org/).
+
+### Remove a Package
+
+Use the `uninstall` command to remove a package:
+
+```bash
+pip uninstall camelcase
+```
+
+*(PIP will ask you to confirm if you want to remove the package. Press `y` and `ENTER` to confirm)*
+
+### List Packages
+
+Use the `list` command to find all the packages installed on your system:
+
+```bash
+pip list
+```
+
+---
+
+## Try Except
+
+The `try` block lets you test a block of code for errors.
+The `except` block lets you handle the error.
+The `else` block lets you execute code when there is no error.
+The `finally` block lets you execute code, regardless of the result of the try- and except blocks.
+
+### Exception Handling
+When an error occurs, or exception as we call it, Python will normally stop and generate an error message.
+These exceptions can be handled using the `try` statement:
+
+```python
+# The try block will generate an exception, because x is not defined:
+try:
+  print(x)
+except:
+  print("An exception occurred")
+
+# Output: An exception occurred
+```
+
+### Many Exceptions
+You can define as many exception blocks as you want, e.g. if you want to execute a special block of code for a special kind of error:
+
+```python
+# Print one message if the try block raises a NameError and another for other errors:
+try:
+  print(x)
+except NameError:
+  print("Variable x is not defined")
+except:
+  print("Something else went wrong")
+
+# Output: Variable x is not defined
+```
+
+### Else
+You can use the `else` keyword to define a block of code to be executed if no errors were raised:
+
+```python
+# In this example, the try block does not generate any error:
+try:
+  print("Hello")
+except:
+  print("Something went wrong")
+else:
+  print("Nothing went wrong")
+
+# Output:
+# Hello
+# Nothing went wrong
+```
+
+### Finally
+The `finally` block, if specified, will be executed regardless if the try block raises an error or not.
+
+```python
+try:
+  print(x)
+except:
+  print("Something went wrong")
+finally:
+  print("The 'try except' is finished")
+
+# Output:
+# Something went wrong
+# The 'try except' is finished
+```
+*(This can be useful to close objects and clean up resources)*
+
+### Raise an exception
+As a Python developer you can choose to throw an exception if a condition occurs.
+To throw (or raise) an exception, use the `raise` keyword.
+
+```python
+x = -1
+
+if x < 0:
+  raise Exception("Sorry, no numbers below zero")
+
+# Output: Exception: Sorry, no numbers below zero
+```
+
+You can define what kind of error to raise, and the text to print to the user:
+
+```python
+x = "hello"
+
+if not type(x) is int:
+  raise TypeError("Only integers are allowed")
+
+# Output: TypeError: Only integers are allowed
+```
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
@@ -3178,6 +3575,6 @@ Topics coming up in practice:
 
 <div align="center">
 
-*Python Notes — Up to Math*
+*Python Notes — Up to Try Except*
 
 </div>
