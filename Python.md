@@ -83,6 +83,24 @@
 - [RegEx](#regex)
 - [PIP](#pip)
 - [Try Except](#try-except)
+- [OOP — Object-Oriented Programming](#oop--object-oriented-programming)
+  - [Classes and Objects](#classes-and-objects)
+  - [The `__init__()` Method](#the-__init__-method)
+  - [The `self` Parameter](#the-self-parameter)
+  - [Object Methods](#object-methods)
+  - [Modify and Delete Object Properties](#modify-and-delete-object-properties)
+  - [Inheritance](#inheritance)
+  - [The `super()` Function](#the-super-function)
+  - [Override Methods](#override-methods)
+  - [Multiple Inheritance](#multiple-inheritance)
+  - [Encapsulation](#encapsulation)
+  - [Getters and Setters (`@property`)](#getters-and-setters-property)
+  - [Polymorphism](#polymorphism)
+  - [Abstraction](#abstraction)
+  - [Class Variables vs Instance Variables](#class-variables-vs-instance-variables)
+  - [Class Methods and Static Methods](#class-methods-and-static-methods)
+  - [Magic / Dunder Methods](#magic--dunder-methods)
+  - [OOP Quick Reference](#oop-quick-reference)
 
 ---
 
@@ -3562,19 +3580,606 @@ if not type(x) is int:
 
 ---
 
+## OOP — Object-Oriented Programming
+
+Object-Oriented Programming (OOP) is a programming paradigm based on the concept of **objects** — which bundle **data (attributes)** and **behavior (methods)** together.
+
+| Pillar | Meaning |
+|---|---|
+| **Encapsulation** | Hiding internal data; exposing only what's needed |
+| **Inheritance** | A class can inherit attributes and methods from another class |
+| **Polymorphism** | The same method name can behave differently in different classes |
+| **Abstraction** | Hiding complex implementation details behind a simple interface |
+
+> **Key Facts:**
+> - Everything in Python is an **object**
+> - A **class** is a blueprint; an **object** is an instance of that blueprint
+> - Use `class` keyword to define a class
+
+---
+
+### Classes and Objects
+
+A **class** is like a template. An **object** is a real instance created from that template.
+
+```python
+class Dog:
+    species = "Canis familiaris"  # Class variable (shared by all instances)
+
+    def __init__(self, name, age):
+        self.name = name          # Instance variable
+        self.age = age            # Instance variable
+
+    def bark(self):
+        return f"{self.name} says Woof!"
+
+# Creating objects (instances)
+dog1 = Dog("Rex", 3)
+dog2 = Dog("Buddy", 5)
+
+print(dog1.name)    # Output: Rex
+print(dog2.age)     # Output: 5
+print(dog1.bark())  # Output: Rex says Woof!
+print(type(dog1))   # Output: <class '__main__.Dog'>
+```
+
+---
+
+### The `__init__()` Method
+
+`__init__()` is the **constructor** — it runs automatically every time a new object is created.
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+p1 = Person("Rijoan", 24)
+print(p1.name)  # Output: Rijoan
+print(p1.age)   # Output: 24
+```
+
+> **Note:** `__init__()` is called automatically — you never call it manually. It is the right place to set up all instance variables.
+
+---
+
+### The `self` Parameter
+
+`self` refers to the **current instance** of the class. It must be the **first parameter** of every method.
+
+```python
+class Car:
+    def __init__(self, brand, color):
+        self.brand = brand
+        self.color = color
+
+    def describe(self):
+        return f"I drive a {self.color} {self.brand}."
+
+my_car = Car("Toyota", "Red")
+print(my_car.describe())  # Output: I drive a Red Toyota.
+```
+
+> **Tip:** `self` is a convention — you could technically name it anything, but always use `self` for readability.
+
+---
+
+### Object Methods
+
+Methods are **functions defined inside a class** that describe what an object can do.
+
+```python
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        return f"Deposited {amount}. New balance: {self.balance}"
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            return "Insufficient funds!"
+        self.balance -= amount
+        return f"Withdrew {amount}. Remaining: {self.balance}"
+
+    def get_balance(self):
+        return f"{self.owner}'s balance: {self.balance}"
+
+account = BankAccount("Rijoan", 1000)
+print(account.deposit(500))    # Output: Deposited 500. New balance: 1500
+print(account.withdraw(200))   # Output: Withdrew 200. Remaining: 1300
+print(account.get_balance())   # Output: Rijoan's balance: 1300
+```
+
+---
+
+### Modify and Delete Object Properties
+
+```python
+class Student:
+    def __init__(self, name, grade):
+        self.name = name
+        self.grade = grade
+
+s1 = Student("Rijoan", "A")
+
+# Modify a property
+s1.grade = "A+"
+print(s1.grade)  # Output: A+
+
+# Add a new property
+s1.subject = "Python"
+print(s1.subject)  # Output: Python
+
+# Delete a property
+del s1.subject
+# print(s1.subject)  # Would raise AttributeError
+
+# Delete the entire object
+del s1
+# print(s1)  # Would raise NameError
+```
+
+---
+
+### Inheritance
+
+Inheritance allows a class (**child**) to **reuse** attributes and methods from another class (**parent**).
+
+```python
+# Parent class
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return f"{self.name} makes a sound."
+
+    def eat(self):
+        return f"{self.name} is eating."
+
+# Child class — inherits from Animal
+class Cat(Animal):
+    def speak(self):                          # Override parent method
+        return f"{self.name} says Meow!"
+
+class Dog(Animal):
+    def speak(self):                          # Override parent method
+        return f"{self.name} says Woof!"
+
+cat = Cat("Whiskers")
+dog = Dog("Rex")
+
+print(cat.speak())  # Output: Whiskers says Meow!
+print(dog.speak())  # Output: Rex says Woof!
+print(cat.eat())    # Output: Whiskers is eating.  (inherited from Animal)
+```
+
+> **Syntax:** `class ChildClass(ParentClass):`
+
+---
+
+### The `super()` Function
+
+`super()` lets the child class call methods from its **parent class** — most commonly used in `__init__()` to avoid repeating code.
+
+```python
+class Animal:
+    def __init__(self, name, sound):
+        self.name = name
+        self.sound = sound
+
+    def describe(self):
+        return f"{self.name} goes {self.sound}."
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name, "Woof")  # Call parent __init__
+        self.tricks = []                 # Extra instance variable
+
+    def learn_trick(self, trick):
+        self.tricks.append(trick)
+        return f"{self.name} learned: {trick}!"
+
+dog = Dog("Rex")
+print(dog.describe())            # Output: Rex goes Woof.
+print(dog.learn_trick("Sit"))    # Output: Rex learned: Sit!
+print(dog.tricks)                # Output: ['Sit']
+```
+
+---
+
+### Override Methods
+
+A child class can **replace** a parent method with its own version by defining a method with the **same name**.
+
+```python
+class Shape:
+    def area(self):
+        return 0
+
+    def describe(self):
+        return f"This shape has area: {self.area()}"
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):                          # Override parent's area()
+        return self.width * self.height
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):                          # Override parent's area()
+        return 3.14159 * self.radius ** 2
+
+rect = Rectangle(5, 3)
+circ = Circle(4)
+
+print(rect.describe())  # Output: This shape has area: 15
+print(circ.describe())  # Output: This shape has area: 50.26544
+```
+
+---
+
+### Multiple Inheritance
+
+Python supports inheriting from **more than one parent class**.
+
+```python
+class Flyable:
+    def fly(self):
+        return "I can fly!"
+
+class Swimmable:
+    def swim(self):
+        return "I can swim!"
+
+class Duck(Flyable, Swimmable):    # Inherits from both
+    def __init__(self, name):
+        self.name = name
+
+    def quack(self):
+        return f"{self.name} says Quack!"
+
+duck = Duck("Donald")
+print(duck.fly())    # Output: I can fly!
+print(duck.swim())   # Output: I can swim!
+print(duck.quack())  # Output: Donald says Quack!
+```
+
+> **Tip:** Python uses **MRO (Method Resolution Order)** — left to right — when resolving methods from multiple parents. Use `ClassName.__mro__` to inspect the order.
+
+---
+
+### Encapsulation
+
+Encapsulation means **restricting direct access** to some object data. Python uses naming conventions for this.
+
+| Convention | Access | Example |
+|---|---|---|
+| `name` | Public — accessible from anywhere | `self.name` |
+| `_name` | Protected — convention: internal use only | `self._salary` |
+| `__name` | Private — name-mangled, hard to access from outside | `self.__password` |
+
+```python
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name             # Public
+        self._department = "IT"      # Protected (convention)
+        self.__salary = salary       # Private (name-mangled)
+
+    def get_salary(self):            # Controlled access method
+        return self.__salary
+
+    def give_raise(self, amount):
+        if amount > 0:
+            self.__salary += amount
+
+emp = Employee("Rijoan", 50000)
+print(emp.name)           # Output: Rijoan
+print(emp._department)    # Output: IT  (accessible but discouraged)
+print(emp.get_salary())   # Output: 50000
+
+emp.give_raise(5000)
+print(emp.get_salary())   # Output: 55000
+
+# print(emp.__salary)     # AttributeError — name is mangled to _Employee__salary
+print(emp._Employee__salary)  # Output: 55000 (can access via mangled name)
+```
+
+---
+
+### Getters and Setters (`@property`)
+
+The `@property` decorator turns a method into a **read-only attribute**. Use `@name.setter` to allow writing.
+
+```python
+class Temperature:
+    def __init__(self, celsius):
+        self.__celsius = celsius
+
+    @property
+    def celsius(self):             # Getter
+        return self.__celsius
+
+    @celsius.setter
+    def celsius(self, value):      # Setter with validation
+        if value < -273.15:
+            raise ValueError("Temperature below absolute zero!")
+        self.__celsius = value
+
+    @property
+    def fahrenheit(self):          # Computed property (no setter)
+        return self.__celsius * 9/5 + 32
+
+temp = Temperature(25)
+print(temp.celsius)      # Output: 25
+print(temp.fahrenheit)   # Output: 77.0
+
+temp.celsius = 100
+print(temp.fahrenheit)   # Output: 212.0
+
+# temp.celsius = -300    # Would raise ValueError
+```
+
+---
+
+### Polymorphism
+
+Polymorphism means the **same interface** works differently depending on the object. The same method name behaves differently per class.
+
+```python
+class Dog:
+    def speak(self):
+        return "Woof!"
+
+class Cat:
+    def speak(self):
+        return "Meow!"
+
+class Duck:
+    def speak(self):
+        return "Quack!"
+
+# The same function works with any class that has .speak()
+def make_sound(animal):
+    print(animal.speak())
+
+animals = [Dog(), Cat(), Duck()]
+for animal in animals:
+    make_sound(animal)
+# Output:
+# Woof!
+# Meow!
+# Quack!
+```
+
+> **Note:** This is also called **duck typing** — "if it walks like a duck and quacks like a duck, it's a duck." Python doesn't require formal interfaces; any object with the right method works.
+
+---
+
+### Abstraction
+
+Abstraction hides complex implementation details. In Python, use the **`abc` module** to define abstract classes — classes that **cannot be instantiated** and force child classes to implement required methods.
+
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):              # Abstract base class
+    @abstractmethod
+    def area(self):            # Must be implemented by every child
+        pass
+
+    @abstractmethod
+    def perimeter(self):       # Must be implemented by every child
+        pass
+
+    def describe(self):        # Concrete method (shared, not abstract)
+        return f"Area: {self.area()}, Perimeter: {self.perimeter()}"
+
+class Rectangle(Shape):
+    def __init__(self, w, h):
+        self.w = w
+        self.h = h
+
+    def area(self):
+        return self.w * self.h
+
+    def perimeter(self):
+        return 2 * (self.w + self.h)
+
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+
+    def area(self):
+        return 3.14159 * self.r ** 2
+
+    def perimeter(self):
+        return 2 * 3.14159 * self.r
+
+rect = Rectangle(4, 6)
+circ = Circle(5)
+
+print(rect.describe())  # Output: Area: 24, Perimeter: 20
+print(circ.describe())  # Output: Area: 78.53975, Perimeter: 31.4159
+
+# shape = Shape()  # TypeError — cannot instantiate abstract class
+```
+
+---
+
+### Class Variables vs Instance Variables
+
+| Type | Defined In | Shared? | Access |
+|---|---|---|---|
+| **Class variable** | Inside class, outside `__init__` | Yes — all instances share it | `ClassName.var` or `self.var` |
+| **Instance variable** | Inside `__init__` via `self` | No — unique per object | `self.var` |
+
+```python
+class Counter:
+    count = 0              # Class variable — shared by ALL instances
+
+    def __init__(self, name):
+        Counter.count += 1         # Modify class variable
+        self.name = name           # Instance variable — unique per object
+        self.id = Counter.count    # Assign current count as ID
+
+c1 = Counter("Alice")
+c2 = Counter("Bob")
+c3 = Counter("Charlie")
+
+print(Counter.count)   # Output: 3  (shared)
+print(c1.id)           # Output: 1
+print(c2.id)           # Output: 2
+print(c3.name)         # Output: Charlie
+```
+
+---
+
+### Class Methods and Static Methods
+
+| Decorator | First Parameter | Can Access | Use Case |
+|---|---|---|---|
+| *(none)* | `self` | Instance + class data | Regular object method |
+| `@classmethod` | `cls` | Class data only | Factory methods, class-level logic |
+| `@staticmethod` | *(none)* | Nothing — standalone | Utility/helper functions |
+
+```python
+class Person:
+    population = 0
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        Person.population += 1
+
+    def greet(self):                      # Regular instance method
+        return f"Hi, I'm {self.name}!"
+
+    @classmethod
+    def get_population(cls):              # Class method
+        return f"Total people: {cls.population}"
+
+    @classmethod
+    def from_birth_year(cls, name, birth_year):  # Factory class method
+        age = 2026 - birth_year
+        return cls(name, age)             # Creates a new instance
+
+    @staticmethod
+    def is_adult(age):                    # Static method — no self or cls
+        return age >= 18
+
+p1 = Person("Rijoan", 24)
+p2 = Person.from_birth_year("Maruf", 2000)  # Use factory method
+
+print(p1.greet())               # Output: Hi, I'm Rijoan!
+print(Person.get_population())  # Output: Total people: 2
+print(Person.is_adult(20))      # Output: True
+print(Person.is_adult(15))      # Output: False
+print(p2.age)                   # Output: 26
+```
+
+---
+
+### Magic / Dunder Methods
+
+Magic methods (also called **dunder methods** — double underscore) let you define how your objects behave with built-in Python operations.
+
+| Method | Triggered By | Description |
+|---|---|---|
+| `__init__(self)` | `MyClass()` | Constructor |
+| `__str__(self)` | `print(obj)` / `str(obj)` | Human-readable string representation |
+| `__repr__(self)` | `repr(obj)` / in shell | Developer/debug string representation |
+| `__len__(self)` | `len(obj)` | Returns length |
+| `__add__(self, other)` | `obj1 + obj2` | Addition operator |
+| `__eq__(self, other)` | `obj1 == obj2` | Equality check |
+| `__lt__(self, other)` | `obj1 < obj2` | Less-than comparison |
+| `__contains__(self, item)` | `item in obj` | Membership test |
+| `__del__(self)` | `del obj` | Destructor |
+
+```python
+class Book:
+    def __init__(self, title, author, pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
+
+    def __str__(self):
+        return f"'{self.title}' by {self.author}"
+
+    def __repr__(self):
+        return f"Book(title={self.title!r}, author={self.author!r}, pages={self.pages})"
+
+    def __len__(self):
+        return self.pages
+
+    def __eq__(self, other):
+        return self.title == other.title and self.author == other.author
+
+    def __lt__(self, other):
+        return self.pages < other.pages
+
+    def __add__(self, other):
+        combined_title = f"{self.title} & {other.title}"
+        return Book(combined_title, "Various", self.pages + other.pages)
+
+b1 = Book("Python Basics", "Rijoan", 300)
+b2 = Book("Advanced Python", "Maruf", 500)
+
+print(b1)            # Output: 'Python Basics' by Rijoan   (uses __str__)
+print(repr(b1))      # Output: Book(title='Python Basics', ...)  (uses __repr__)
+print(len(b1))       # Output: 300   (uses __len__)
+print(b1 == b2)      # Output: False  (uses __eq__)
+print(b1 < b2)       # Output: True   (uses __lt__)
+combined = b1 + b2   # uses __add__
+print(combined)      # Output: 'Python Basics & Advanced Python' by Various
+print(len(combined)) # Output: 800
+```
+
+---
+
+### OOP Quick Reference
+
+| Concept | Keyword / Syntax | Purpose |
+|---|---|---|
+| Define a class | `class MyClass:` | Blueprint for objects |
+| Constructor | `def __init__(self, ...)` | Runs on object creation |
+| Create an object | `obj = MyClass(...)` | Instantiate a class |
+| Instance method | `def method(self):` | Behavior tied to object |
+| Class method | `@classmethod` + `cls` | Tied to the class itself |
+| Static method | `@staticmethod` | Utility, no class/instance ref |
+| Inheritance | `class Child(Parent):` | Reuse parent code |
+| Call parent | `super().__init__(...)` | Access parent constructor/methods |
+| Override | Redefine a method in child | Change parent behavior |
+| Abstract class | `ABC` + `@abstractmethod` | Force child to implement methods |
+| Property getter | `@property` | Access method like attribute |
+| Property setter | `@name.setter` | Set with validation |
+| Private attribute | `self.__name` | Name-mangled, access controlled |
+| Protected attribute | `self._name` | Convention — internal use |
+| String repr | `__str__` / `__repr__` | `print()` and `repr()` behavior |
+
+---
+
 ## What's Next
 
 Topics coming up in practice:
 
 | Topic | Description |
 |---|---|
-| **Classes & Objects** | Object-oriented programming |
 | **File Handling** | Read and write files |
 
 ---
 
 <div align="center">
 
-*Python Notes — Up to Try Except*
+*Python Notes — Up to OOP*
 
 </div>
